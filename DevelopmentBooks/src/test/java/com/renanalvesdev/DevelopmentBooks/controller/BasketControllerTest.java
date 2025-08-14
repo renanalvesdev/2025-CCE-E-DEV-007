@@ -16,6 +16,8 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.renanalvesdev.DevelopmentBooks.dto.BasketDTO;
+import com.renanalvesdev.DevelopmentBooks.dto.BasketItemDTO;
 import com.renanalvesdev.DevelopmentBooks.service.BasketService;
 
 @WebMvcTest(BasketController.class)
@@ -32,8 +34,8 @@ public class BasketControllerTest {
 	    @Test
 	    void shouldCalculateTotalBasket() throws Exception {
 	        BasketDTO basket = new BasketDTO(List.of(
-	            new BasketItemDTO("Clean Coder", 1L),
-	            new BasketItemDTO("Clean Code", 1L)
+	            new BasketItemDTO("Clean Coder", 1),
+	            new BasketItemDTO("Clean Code", 1)
 	        ));
 
 	        BigDecimal totalBasket = new BigDecimal("150.0");
