@@ -22,7 +22,6 @@ public enum Book {
 		this.price = price;
 	}
 	
-	
 	public String getTitle() {
 		return title;
 	}
@@ -36,5 +35,14 @@ public enum Book {
 		return price;
 	}
 	
+	public static Book getByTitle(String title) {
+		for(Book book : Book.values()) {
+			if(title.equalsIgnoreCase(book.getTitle())) {
+				return book;
+			}
+		}
+		
+		throw new IllegalArgumentException("No book found with title: " + title);
+	}
 	
 }

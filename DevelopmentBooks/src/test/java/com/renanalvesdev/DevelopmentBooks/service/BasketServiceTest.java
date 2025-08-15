@@ -1,11 +1,13 @@
 package com.renanalvesdev.DevelopmentBooks.service;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import java.math.BigDecimal;
 import java.util.List;
 import java.util.stream.Stream;
 
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,7 +16,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 import com.renanalvesdev.DevelopmentBooks.dto.BasketDTO;
 import com.renanalvesdev.DevelopmentBooks.dto.BasketItemDTO;
 import com.renanalvesdev.DevelopmentBooks.enums.Book;
-import com.renanalvesdev.DevelopmentBooks.model.BasketItem;
 
 @SpringBootTest
 public class BasketServiceTest {
@@ -63,4 +64,17 @@ public class BasketServiceTest {
 		assertEquals(0, totalBasket.compareTo(total));
       	
 	}
+	
+	@Test
+    void shouldThrowBookNotFoundWhenBookIsInvalid() {
+        
+		BasketDTO basketDTO = new BasketDTO(List.of(new BasketItemDTO("Invalid Book 12345", 1)));
+
+        IllegalArgumentException exception = assertThrows(
+            IllegalArgumentException.class,
+            () -> basketService.calculateTotal(basketDTO)
+        );
+
+        assertEquals("No book found with title: Invalid Book 12345", exception.getMessage());
+    }
 }
