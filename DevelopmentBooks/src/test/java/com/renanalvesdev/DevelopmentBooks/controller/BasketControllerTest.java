@@ -3,11 +3,13 @@ package com.renanalvesdev.DevelopmentBooks.controller;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.hamcrest.core.Is;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -58,7 +60,8 @@ public class BasketControllerTest {
 	        mockMvc.perform(post("/basket/calculate")
 	                .contentType(MediaType.APPLICATION_JSON)
 	                .content(objectMapper.writeValueAsString(basket)))
-	            .andExpect(status().isBadRequest());
+	            .andExpect(status().isBadRequest())
+	        	.andExpect(jsonPath("$.basketItens", Is.is("Basket cannot be empty.")));
 	    }
 
 	    @Test
@@ -68,7 +71,8 @@ public class BasketControllerTest {
 	        mockMvc.perform(post("/basket/calculate")
 	                .contentType(MediaType.APPLICATION_JSON)
 	                .content(objectMapper.writeValueAsString(basket)))
-	            .andExpect(status().isBadRequest());
+	            .andExpect(status().isBadRequest())
+	            .andExpect(jsonPath("$.title", Is.is("Book title cannot be blank.")));
 	    }
 	    
 	    @Test
@@ -78,6 +82,7 @@ public class BasketControllerTest {
 	        mockMvc.perform(post("/basket/calculate")
 	                .contentType(MediaType.APPLICATION_JSON)
 	                .content(objectMapper.writeValueAsString(basket)))
-	            .andExpect(status().isBadRequest());
+	            .andExpect(status().isBadRequest())
+	            .andExpect(jsonPath("$.quantity", Is.is("Book quantity should be a positive number.")));
 	    }
 }

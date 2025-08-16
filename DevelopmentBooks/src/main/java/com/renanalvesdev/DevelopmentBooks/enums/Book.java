@@ -2,6 +2,8 @@ package com.renanalvesdev.DevelopmentBooks.enums;
 
 import java.math.BigDecimal;
 
+import com.renanalvesdev.DevelopmentBooks.service.exception.BookNotFoundException;
+
 public enum Book {
 	
 	CLEAN_CODE("Clean Code", "Robert Martin", 2008 ,new BigDecimal("50.0")),
@@ -42,7 +44,7 @@ public enum Book {
 			}
 		}
 		
-		throw new IllegalArgumentException("No book found with title: " + title);
+		throw new BookNotFoundException(title);
 	}
 	
 }

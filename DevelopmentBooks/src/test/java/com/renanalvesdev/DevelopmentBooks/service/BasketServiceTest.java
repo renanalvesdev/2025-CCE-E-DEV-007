@@ -16,6 +16,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import com.renanalvesdev.DevelopmentBooks.dto.BasketDTO;
 import com.renanalvesdev.DevelopmentBooks.dto.BasketItemDTO;
 import com.renanalvesdev.DevelopmentBooks.enums.Book;
+import com.renanalvesdev.DevelopmentBooks.service.exception.BookNotFoundException;
 
 @SpringBootTest
 public class BasketServiceTest {
@@ -82,10 +83,7 @@ public class BasketServiceTest {
         
 		BasketDTO basketDTO = new BasketDTO( List.of(new BasketItemDTO("Invalid Book 12345", 1)));
 
-        IllegalArgumentException exception = assertThrows(
-            IllegalArgumentException.class,
-            () -> basketService.calculateTotal(basketDTO)
-        );
+        BookNotFoundException exception = assertThrows(BookNotFoundException.class,   () -> basketService.calculateTotal(basketDTO));
 
         assertEquals("No book found with title: Invalid Book 12345", exception.getMessage());
     }
