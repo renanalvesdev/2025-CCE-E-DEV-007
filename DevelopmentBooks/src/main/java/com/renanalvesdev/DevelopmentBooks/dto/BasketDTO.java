@@ -2,8 +2,13 @@ package com.renanalvesdev.DevelopmentBooks.dto;
 
 import java.util.List;
 
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotEmpty;
+
 public class BasketDTO {
 	
+	@NotEmpty
+	@Valid
 	private List<BasketItemDTO> basketItensDTO;
 
 	public BasketDTO(List<BasketItemDTO> basketItensDTO) {

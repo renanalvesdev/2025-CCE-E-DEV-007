@@ -12,6 +12,8 @@ import org.springframework.web.bind.annotation.RestController;
 import com.renanalvesdev.DevelopmentBooks.dto.BasketDTO;
 import com.renanalvesdev.DevelopmentBooks.service.BasketService;
 
+import jakarta.validation.Valid;
+
 @RestController
 @RequestMapping("/basket")
 public class BasketController {
@@ -21,7 +23,7 @@ public class BasketController {
     private BasketService basketService;
 	
 	@PostMapping("/calculate")
-    public ResponseEntity<BigDecimal> calculateTotal(@RequestBody BasketDTO basket) {
+    public ResponseEntity<BigDecimal> calculateTotal(@RequestBody @Valid BasketDTO basket) {
         BigDecimal total = basketService.calculateTotal(basket);
         return ResponseEntity.ok(total);
     }

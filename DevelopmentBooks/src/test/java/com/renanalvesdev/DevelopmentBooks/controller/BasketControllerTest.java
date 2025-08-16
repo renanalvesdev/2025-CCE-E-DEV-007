@@ -70,4 +70,14 @@ public class BasketControllerTest {
 	                .content(objectMapper.writeValueAsString(basket)))
 	            .andExpect(status().isBadRequest());
 	    }
+	    
+	    @Test
+	    void shouldReturnBadRequestWhenAnyBookQuantityIsNotPositive() throws Exception {
+	    	BasketDTO basket = new BasketDTO(List.of(new BasketItemDTO("", -1)));
+	    	
+	        mockMvc.perform(post("/basket/calculate")
+	                .contentType(MediaType.APPLICATION_JSON)
+	                .content(objectMapper.writeValueAsString(basket)))
+	            .andExpect(status().isBadRequest());
+	    }
 }
