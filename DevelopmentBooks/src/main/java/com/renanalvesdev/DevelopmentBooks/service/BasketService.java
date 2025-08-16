@@ -6,16 +6,16 @@ import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
 
-import com.renanalvesdev.DevelopmentBooks.dto.BasketItemDTO;
+import com.renanalvesdev.DevelopmentBooks.dto.BasketDTO;
 import com.renanalvesdev.DevelopmentBooks.enums.Book;
 import com.renanalvesdev.DevelopmentBooks.model.BasketItem;
 
 @Service
 public class BasketService {
 	
-	public BigDecimal calculateTotal(List<BasketItemDTO> basketItensDTO) {
+	public BigDecimal calculateTotal(BasketDTO basketDTO) {
 		
-		List<BasketItem> basketItems = convertDtoToBasketItem(basketItensDTO);
+		List<BasketItem> basketItems = convertDtoToBasketItem(basketDTO);
 		
 		//BigDecimal total = new BigDecimal("0.00");
 		double totalDouble = 0.00;
@@ -55,8 +55,9 @@ public class BasketService {
 		
 	}
 	
-	private List<BasketItem> convertDtoToBasketItem(List<BasketItemDTO> basketItensDTO) {
-		return basketItensDTO
+	private List<BasketItem> convertDtoToBasketItem(BasketDTO basketDTO) {
+		return basketDTO
+				.getBasketItensDTO()
 				.stream()
 				.map(basketItemDTO -> 
 					new BasketItem(basketItemDTO.getQuantity(), Book.getByTitle(basketItemDTO.getBookName()))

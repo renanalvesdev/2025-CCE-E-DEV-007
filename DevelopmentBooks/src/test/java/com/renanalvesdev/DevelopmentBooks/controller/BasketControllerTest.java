@@ -17,6 +17,7 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.renanalvesdev.DevelopmentBooks.dto.BasketDTO;
 import com.renanalvesdev.DevelopmentBooks.dto.BasketItemDTO;
 import com.renanalvesdev.DevelopmentBooks.service.BasketService;
 
@@ -33,10 +34,10 @@ public class BasketControllerTest {
 
 	    @Test
 	    void shouldCalculateTotalBasket() throws Exception {
-	    	List<BasketItemDTO>  basket = List.of(
+	    	 BasketDTO basket = new BasketDTO(List.of(
 	            new BasketItemDTO("Clean Coder", 1),
 	            new BasketItemDTO("Clean Code", 1)
-	        );
+	        ));
 
 	        BigDecimal totalBasket = new BigDecimal("150.0");
 
@@ -52,7 +53,7 @@ public class BasketControllerTest {
 	    
 	    @Test
 	    void shouldReturnBadRequestWhenBasketItensDtoIsEmpty() throws Exception {
-	    	List<BasketItemDTO> basket = new ArrayList<>();
+	    	BasketDTO basket = new BasketDTO(new ArrayList<>());
 	    	
 	        mockMvc.perform(post("/basket/calculate")
 	                .contentType(MediaType.APPLICATION_JSON)
@@ -62,7 +63,7 @@ public class BasketControllerTest {
 
 	    @Test
 	    void shouldReturnBadRequestWhenAnyBookTitleIsEmpty() throws Exception {
-	    	List<BasketItemDTO> basket =List.of(new BasketItemDTO("", 1));
+	    	BasketDTO basket = new BasketDTO(List.of(new BasketItemDTO("", 1)));
 	    	
 	        mockMvc.perform(post("/basket/calculate")
 	                .contentType(MediaType.APPLICATION_JSON)
