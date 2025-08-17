@@ -1,4 +1,4 @@
-package com.renanalvesdev.DevelopmentBooks.service.exception;
+package com.renanalvesdev.DevelopmentBooks.exception;
 
 public class BookInvalidException extends RuntimeException {
 	

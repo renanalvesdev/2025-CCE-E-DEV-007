@@ -2,7 +2,7 @@ package com.renanalvesdev.DevelopmentBooks.enums;
 
 import java.math.BigDecimal;
 
-import com.renanalvesdev.DevelopmentBooks.service.exception.BookInvalidException;
+import com.renanalvesdev.DevelopmentBooks.exception.BookInvalidException;
 
 public enum Book {
 	

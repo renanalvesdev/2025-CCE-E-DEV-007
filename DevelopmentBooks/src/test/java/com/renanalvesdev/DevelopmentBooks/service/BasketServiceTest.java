@@ -16,7 +16,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import com.renanalvesdev.DevelopmentBooks.dto.BasketDTO;
 import com.renanalvesdev.DevelopmentBooks.dto.BasketItemDTO;
 import com.renanalvesdev.DevelopmentBooks.enums.Book;
-import com.renanalvesdev.DevelopmentBooks.service.exception.BookInvalidException;
+import com.renanalvesdev.DevelopmentBooks.exception.BookInvalidException;
 
 @SpringBootTest
 public class BasketServiceTest {

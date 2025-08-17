@@ -1,4 +1,4 @@
-package com.renanalvesdev.DevelopmentBooks.service.exception;
+package com.renanalvesdev.DevelopmentBooks.exception;
 
 import java.util.HashMap;
 import java.util.Map;

@@ -22,8 +22,9 @@ import org.springframework.test.web.servlet.MockMvc;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.renanalvesdev.DevelopmentBooks.dto.BasketDTO;
 import com.renanalvesdev.DevelopmentBooks.dto.BasketItemDTO;
+import com.renanalvesdev.DevelopmentBooks.exception.BookInvalidException;
+import com.renanalvesdev.DevelopmentBooks.exception.GlobalExceptionHandler;
 import com.renanalvesdev.DevelopmentBooks.service.BasketService;
-import com.renanalvesdev.DevelopmentBooks.service.exception.GlobalExceptionHandler;
 
 @WebMvcTest(BasketController.class)
 @Import(GlobalExceptionHandler.class)
@@ -64,7 +65,7 @@ public class BasketControllerTest {
 	                .contentType(MediaType.APPLICATION_JSON)
 	                .content(objectMapper.writeValueAsString(basket)))
 	            .andExpect(status().isBadRequest())
-	        	.andExpect(jsonPath("$.basketItens", Is.is("must not be empty")));
+	        	.andExpect(jsonPath("$.basketItensDTO").value("must not be empty"));
 	    }
 
 	    @Test
@@ -75,7 +76,7 @@ public class BasketControllerTest {
 	                .contentType(MediaType.APPLICATION_JSON)
 	                .content(objectMapper.writeValueAsString(basket)))
 	            .andExpect(status().isBadRequest())
-	            .andExpect(jsonPath("$.title", Is.is("must not be blank")));
+	            .andExpect(jsonPath("$['basketItensDTO[0].bookName']").value("must not be blank"));
 	    }
 	    
 	    @Test
@@ -86,12 +87,16 @@ public class BasketControllerTest {
 	                .contentType(MediaType.APPLICATION_JSON)
 	                .content(objectMapper.writeValueAsString(basket)))
 	            .andExpect(status().isBadRequest())
-	            .andExpect(jsonPath("$.quantity", Is.is("must be greater than 0")));
+	            .andExpect(jsonPath("$['basketItensDTO[0].quantity']").value("must be greater than 0"))
+	            .andExpect(jsonPath("$['basketItensDTO[0].bookName']").value("must not be blank"));
 	    }
 	    
 	    
 	    @Test
 	    void shouldReturnBadRequestWhenAnyBookIsInvalid() throws Exception {
+	    	
+	    	Mockito.when(basketService.calculateTotal(Mockito.any())).thenThrow(new BookInvalidException("Random Book Title 123456"));
+	    	
 	    	BasketDTO basket = new BasketDTO(List.of(new BasketItemDTO("Random Book Title 123456", 1)));
 	    	
 	        mockMvc.perform(post("/basket/calculate")
