@@ -1,13 +1,13 @@
 package com.renanalvesdev.DevelopmentBooks.service.exception;
 
-public class BookNotFoundException extends RuntimeException {
+public class BookInvalidException extends RuntimeException {
 	
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
 
-	public BookNotFoundException(String title) {
+	public BookInvalidException(String title) {
 		super("No book found with title: "+title);
 	}
 }

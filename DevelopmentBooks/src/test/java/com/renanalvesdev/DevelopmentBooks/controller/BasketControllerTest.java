@@ -2,8 +2,8 @@ package com.renanalvesdev.DevelopmentBooks.controller;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -15,6 +15,7 @@ import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.context.annotation.Import;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
@@ -22,8 +23,10 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.renanalvesdev.DevelopmentBooks.dto.BasketDTO;
 import com.renanalvesdev.DevelopmentBooks.dto.BasketItemDTO;
 import com.renanalvesdev.DevelopmentBooks.service.BasketService;
+import com.renanalvesdev.DevelopmentBooks.service.exception.GlobalExceptionHandler;
 
 @WebMvcTest(BasketController.class)
+@Import(GlobalExceptionHandler.class)
 public class BasketControllerTest {
 	 @Autowired
 	    private MockMvc mockMvc;
@@ -54,14 +57,14 @@ public class BasketControllerTest {
 	    }
 	    
 	    @Test
-	    void shouldReturnBadRequestWhenBasketItensDtoIsEmpty() throws Exception {
+	    void shouldReturnBadRequestWhenBasketItensIsEmpty() throws Exception {
 	    	BasketDTO basket = new BasketDTO(new ArrayList<>());
 	    	
 	        mockMvc.perform(post("/basket/calculate")
 	                .contentType(MediaType.APPLICATION_JSON)
 	                .content(objectMapper.writeValueAsString(basket)))
 	            .andExpect(status().isBadRequest())
-	        	.andExpect(jsonPath("$.basketItens", Is.is("Basket cannot be empty.")));
+	        	.andExpect(jsonPath("$.basketItens", Is.is("must not be empty")));
 	    }
 
 	    @Test
@@ -72,7 +75,7 @@ public class BasketControllerTest {
 	                .contentType(MediaType.APPLICATION_JSON)
 	                .content(objectMapper.writeValueAsString(basket)))
 	            .andExpect(status().isBadRequest())
-	            .andExpect(jsonPath("$.title", Is.is("Book title cannot be blank.")));
+	            .andExpect(jsonPath("$.title", Is.is("must not be blank")));
 	    }
 	    
 	    @Test
@@ -83,6 +86,18 @@ public class BasketControllerTest {
 	                .contentType(MediaType.APPLICATION_JSON)
 	                .content(objectMapper.writeValueAsString(basket)))
 	            .andExpect(status().isBadRequest())
-	            .andExpect(jsonPath("$.quantity", Is.is("Book quantity should be a positive number.")));
+	            .andExpect(jsonPath("$.quantity", Is.is("must be greater than 0")));
+	    }
+	    
+	    
+	    @Test
+	    void shouldReturnBadRequestWhenAnyBookIsInvalid() throws Exception {
+	    	BasketDTO basket = new BasketDTO(List.of(new BasketItemDTO("Random Book Title 123456", 1)));
+	    	
+	        mockMvc.perform(post("/basket/calculate")
+	                .contentType(MediaType.APPLICATION_JSON)
+	                .content(objectMapper.writeValueAsString(basket)))
+	            .andExpect(status().isBadRequest())
+	            .andExpect(content().string("No book found with title: Random Book Title 123456"));
 	    }
 }

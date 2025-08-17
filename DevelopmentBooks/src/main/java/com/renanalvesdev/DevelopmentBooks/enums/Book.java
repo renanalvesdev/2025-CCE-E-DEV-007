@@ -2,7 +2,7 @@ package com.renanalvesdev.DevelopmentBooks.enums;
 
 import java.math.BigDecimal;
 
-import com.renanalvesdev.DevelopmentBooks.service.exception.BookNotFoundException;
+import com.renanalvesdev.DevelopmentBooks.service.exception.BookInvalidException;
 
 public enum Book {
 	
@@ -44,7 +44,7 @@ public enum Book {
 			}
 		}
 		
-		throw new BookNotFoundException(title);
+		throw new BookInvalidException(title);
 	}
 	
 }
