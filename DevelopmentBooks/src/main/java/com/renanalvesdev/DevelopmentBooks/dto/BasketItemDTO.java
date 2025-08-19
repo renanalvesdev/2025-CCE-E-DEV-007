@@ -33,4 +33,10 @@ public class BasketItemDTO {
 		this.quantity = quantity;
 	}
 
+	@Override
+	public String toString() {
+		return "BasketItemDTO [bookName=" + bookName + ", quantity=" + quantity + "]";
+	}
+
+	
 }

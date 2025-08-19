@@ -26,6 +26,12 @@ public class BasketDTO {
 	public void setBasketItensDTO(List<BasketItemDTO> basketItensDTO) {
 		this.basketItensDTO = basketItensDTO;
 	}
+
+	@Override
+	public String toString() {
+		return "BasketDTO [basketItensDTO=" + basketItensDTO + "]";
+	}
+	
 	
 	
 }

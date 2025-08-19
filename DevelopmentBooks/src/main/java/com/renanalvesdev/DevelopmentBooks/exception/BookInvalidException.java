@@ -8,6 +8,6 @@ public class BookInvalidException extends RuntimeException {
 	private static final long serialVersionUID = 1L;
 
 	public BookInvalidException(String title) {
-		super("No book found with title: "+title);
+		super("Invalid book with title: "+title);
 	}
 }
