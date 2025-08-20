@@ -103,6 +103,6 @@ public class BasketControllerTest {
 	                .contentType(MediaType.APPLICATION_JSON)
 	                .content(objectMapper.writeValueAsString(basket)))
 	            .andExpect(status().isBadRequest())
-	            .andExpect(content().string("No book found with title: Random Book Title 123456"));
+	            .andExpect(content().string("Invalid book with title: Random Book Title 123456"));
 	    }
 }
